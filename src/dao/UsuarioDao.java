@@ -6,10 +6,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import model.Usuario;
-import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Restrictions;
 
 public class UsuarioDao extends DaoMestre {
     
@@ -54,6 +52,25 @@ public class UsuarioDao extends DaoMestre {
         }
         return us;
     }
+    
+    public static Query pegarUltimoUsuario() {
+        Session sessao = factory.openSession();
+        int id = 0;
+        Query query = null;
+        try {
+            transaction = sessao.beginTransaction();
+            query = sessao.createQuery("select max(id) from us GROUP BY id ");
+            id = query.getMaxResults();
+            System.out.println(id);
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            sessao.close();
+        }
+        return query;
+    }    
     
     public static boolean atualizarUsuario(Usuario novoUs, int id) {
         boolean retorno = false;

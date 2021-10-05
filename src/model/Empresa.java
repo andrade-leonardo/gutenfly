@@ -19,9 +19,9 @@ import javax.persistence.Table;
 
 public class Empresa implements Serializable {
     
-    @Id
-    @SequenceGenerator(name = "EMPRESA_SEQ", sequenceName = "seq_empresa", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "EMPRESA_SEQ", strategy = GenerationType.SEQUENCE)
+   @Id
+   @SequenceGenerator(name = "EMPRESA_SEQ", sequenceName = "seq_empresa", allocationSize = 1, initialValue = 1)
+   @GeneratedValue(generator = "EMPRESA_SEQ", strategy = GenerationType.IDENTITY)
     
     @Column(name = "id", nullable = false)
     private Integer id;

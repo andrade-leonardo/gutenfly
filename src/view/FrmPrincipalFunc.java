@@ -33,6 +33,7 @@ public class FrmPrincipalFunc extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         JMIEmpresa = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tela Principal - Funcionário");
@@ -86,6 +87,14 @@ public class FrmPrincipalFunc extends javax.swing.JFrame {
         });
         jMenu1.add(JMIEmpresa);
 
+        jMenuItem1.setText("Funcionario");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
@@ -111,6 +120,12 @@ public class FrmPrincipalFunc extends javax.swing.JFrame {
         jDesktopPane2.add(frameEmpresa);
         frameEmpresa.setVisible(true);
     }//GEN-LAST:event_JMIEmpresaActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        IfrCadastroFunc frameFuncionario = new IfrCadastroFunc();
+        jDesktopPane2.add(frameFuncionario);
+        frameFuncionario.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,6 +168,7 @@ public class FrmPrincipalFunc extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

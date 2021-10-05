@@ -20,9 +20,9 @@ import javax.persistence.Table;
 
 public class Usuario implements Serializable {
     
-    @Id
-    @SequenceGenerator(name = "USUARIO_SEQ", sequenceName = "seq_usuario", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "USUARIO_SEQ", strategy = GenerationType.SEQUENCE)
+   @Id
+   @SequenceGenerator(name = "USUARIO_SEQ", sequenceName = "seq_usuario", allocationSize = 1, initialValue = 1)
+   @GeneratedValue(generator = "USUARIO_SEQ", strategy = GenerationType.IDENTITY)
     
     @Column(name = "id", nullable = false)
     private Integer id;

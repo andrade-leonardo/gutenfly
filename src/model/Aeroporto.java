@@ -16,34 +16,33 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-
 @Entity(name = "aero")
 @Table(name = "aeroporto")
 
 public class Aeroporto implements Serializable {
-    
+
     @Id
     @SequenceGenerator(name = "AEROPORTO_SEQ", sequenceName = "seq_aerporto", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "AEROPORTO_SEQ", strategy = GenerationType.SEQUENCE)
-    
+    @GeneratedValue(generator = "AEROPORTO_SEQ", strategy = GenerationType.IDENTITY)
+
     @Column(name = "id", nullable = false)
     private Integer id;
-    
+
     @Column(name = "nome", length = 45, nullable = false)
     private String nome;
-    
+
     @Column(name = "cnpj", length = 18, nullable = false)
     private String cnpj;
-    
+
     @Column(name = "telefone", length = 15, nullable = false)
     private String telefone;
-    
+
     @Column(name = "email", length = 45, nullable = false)
     private String email;
-    
+
     @Column(name = "situacao", nullable = false)
     private Boolean situacao;
-    
+
     @OneToOne
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;

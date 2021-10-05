@@ -22,7 +22,7 @@ public class Estado implements Serializable {
     
     @Id
     @SequenceGenerator(name = "ESTADO_SEQ", sequenceName = "seq_estado", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "ESTADO_SEQ", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "ESTADO_SEQ", strategy = GenerationType.IDENTITY)
     
     @Column(name = "id", nullable = false)
     private Integer id;

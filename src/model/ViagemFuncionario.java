@@ -23,10 +23,6 @@ import javax.persistence.Table;
 
 public class ViagemFuncionario implements Serializable {
     
-    @Id
-    @SequenceGenerator(name = "VIAGEMFUNCIONARIO_SEQ", sequenceName = "seq_viagemfuncionario", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "VIAGEMFUNCIONARIO_SEQ", strategy = GenerationType.SEQUENCE)
-    
     @ManyToMany
     @JoinColumn(name = "funcionario_id")
     private Funcionario funcionario;

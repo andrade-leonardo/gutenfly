@@ -3,10 +3,11 @@ package dao;
 import static dao.DaoMestre.factory;
 import java.util.List;
 import model.Funcionario;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 public class FuncionarioDao extends DaoMestre {
-    
+
     public static FuncionarioDao funcionarioDao = null;
 
     public static FuncionarioDao getInstance() {
@@ -16,7 +17,7 @@ public class FuncionarioDao extends DaoMestre {
         return funcionarioDao;
     }
 
-     public static List<Funcionario> pegarTodosFuncionarios(){
+    public static List<Funcionario> pegarTodosFuncionarios() {
         List<Funcionario> lista = null;
         Session sessao = factory.openSession();
         try {
@@ -31,13 +32,38 @@ public class FuncionarioDao extends DaoMestre {
         }
         return lista;
     }
-     
-      public static Funcionario pegarFuncionarioPeloId(int id) {
+
+    public static boolean inserirFuncionario() {
+        boolean retorno = false;
+        Session sessao = factory.openSession();
+        try {
+            transaction = sessao.beginTransaction();
+            Query query = sessao.createQuery("select save_funcionario :email, :senha , :status, :cargo, :cpf, :nome, :telefone");
+            query.setText("email", "123");
+            query.setText("senha", "31231");
+            query.setBoolean("status", true);
+            query.setText("cargo", "312");
+            query.setText("cpf", "31231");
+            query.setText("nome", "31231");
+            query.setText("telefone", "312321");
+              
+            transaction.commit();
+            retorno = true;
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            sessao.close();
+        }
+        return retorno;
+    }
+
+    public static Funcionario pegarFuncionarioPeloId(int id) {
         Session sessao = factory.openSession();
         Funcionario func = null;
         try {
             transaction = sessao.beginTransaction();
-             func = (Funcionario)sessao.get(Funcionario.class, id);
+            func = (Funcionario) sessao.get(Funcionario.class, id);
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -47,7 +73,7 @@ public class FuncionarioDao extends DaoMestre {
         }
         return func;
     }
-      
+
     public static boolean atualizarFuncionario(Funcionario novoFunc, int id) {
         boolean retorno = false;
         Session sessao = factory.openSession();
@@ -77,5 +103,5 @@ public class FuncionarioDao extends DaoMestre {
             sessao.close();
         }
         return retorno;
-    }  
+    }
 }

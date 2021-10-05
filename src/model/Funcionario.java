@@ -23,7 +23,7 @@ public class Funcionario  implements Serializable{
     
     @Id
     @SequenceGenerator(name = "FUNCIONARIO_SEQ", sequenceName = "seq_funcionario", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "FUNCIONARIO_SEQ", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "FUNCIONARIO_SEQ", strategy = GenerationType.IDENTITY)
     
     @Column(name = "id", nullable = false)
     private Integer id;

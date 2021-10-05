@@ -24,7 +24,7 @@ public class Aviao implements Serializable {
     
     @Id
     @SequenceGenerator(name = "AVIAO_SEQ", sequenceName = "seq_aviao", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "AVIAO_SEQ", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "AVIAO_SEQ", strategy = GenerationType.IDENTITY)
     
     @Column(name = "id", nullable = false)
     private Integer id;

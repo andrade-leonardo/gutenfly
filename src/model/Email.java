@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -24,7 +24,7 @@ public class Email implements Serializable {
     
     @Id
     @SequenceGenerator(name = "EMAIL_SEQ", sequenceName = "seq_email", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "EMAIL_SEQ", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "EMAIL_SEQ", strategy = GenerationType.IDENTITY)
     
     @Column(name = "id", nullable = false)
     private Integer id;

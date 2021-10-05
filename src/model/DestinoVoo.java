@@ -24,10 +24,6 @@ import javax.persistence.Table;
 
 public class DestinoVoo implements Serializable {
     
-    @Id
-    @SequenceGenerator(name = "DESTINOVOO_SEQ", sequenceName = "seq_destinovoo", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "DESTINOVOO_SEQ", strategy = GenerationType.SEQUENCE)
-    
     @Column(name = "portao_desemb", length = 1, nullable = false)
     private String portaoDesembarque;
     

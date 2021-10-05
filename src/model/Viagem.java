@@ -24,7 +24,7 @@ public class Viagem implements Serializable {
     
     @Id
     @SequenceGenerator(name = "VIAGEM_SEQ", sequenceName = "seq_viagem", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "VIAGEM_SEQ", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "VIAGEM_SEQ", strategy = GenerationType.IDENTITY)
     
     @Column(name = "id", nullable = false)
     private Integer id;

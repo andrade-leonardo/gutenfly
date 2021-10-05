@@ -19,7 +19,7 @@ public class Bagagem implements Serializable {
     
     @Id
     @SequenceGenerator(name = "BAGAGEM_SEQ", sequenceName = "seq_bagagem", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "BAGAGEM_SEQ", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "BAGAGEM_SEQ", strategy = GenerationType.IDENTITY)
     
     @Column(name = "id", nullable = false)
     private Integer id;

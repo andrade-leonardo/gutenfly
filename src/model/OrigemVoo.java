@@ -24,10 +24,6 @@ import javax.persistence.Table;
 
 public class OrigemVoo implements Serializable {
     
-    @Id
-    @SequenceGenerator(name = "ORIGEMVOO_SEQ", sequenceName = "seq_origemvoo", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "ORIGEMVOO_SEQ", strategy = GenerationType.SEQUENCE)
-    
     @Column(name = "portao_emb", length = 1, nullable = false)
     private String portaoEmbarque;
     

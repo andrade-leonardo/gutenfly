@@ -23,10 +23,6 @@ import javax.persistence.Table;
 
 public class ViagemCliente implements Serializable {
     
-    @Id
-    @SequenceGenerator(name = "VIAGEMCLIENTE_SEQ", sequenceName = "seq_viagemcliente", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "VIAGEMCLIENTE_SEQ", strategy = GenerationType.SEQUENCE)
-    
     @ManyToMany
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

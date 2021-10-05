@@ -19,7 +19,7 @@ public class Item implements Serializable {
     
     @Id
     @SequenceGenerator(name = "ITEM_SEQ", sequenceName = "seq_item", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "ITEM_SEQ", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "ITEM_SEQ", strategy = GenerationType.IDENTITY)
     
     @Column(name = "id", nullable = false)
     private Integer id;
