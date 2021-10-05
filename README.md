@@ -3,11 +3,19 @@
 Ferramentas utilizadas:
 > Java 8 SDK
 
-> Netbeans 8.0.2
+> Netbeans 8.0.2 (IDE)
 
-> Hibernate Framework
+> Hibernate (Framework) 
 
-> iReports
+> JasperReports (Reportes)
+
+> PostgreSQL (DB)
+
+> JUnit (Test Tool)
+
+> Log4J (Log Tool)
+
+> Ainda a implementar...
 
 ---
 Acesso ao drive:
