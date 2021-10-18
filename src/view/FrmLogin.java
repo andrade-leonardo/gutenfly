@@ -97,7 +97,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         if (UsuarioDao.getInstance().autenticar(tfdEmail.getText(), String.valueOf(tfdSenha.getPassword()))) {
-            new FrmPrincipalFunc().setVisible(true);
+            new FrmPrincipal().setVisible(true);
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos!", "Erro", JOptionPane.ERROR_MESSAGE);

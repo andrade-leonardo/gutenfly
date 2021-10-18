@@ -6,12 +6,9 @@
 package view;
 
 import apoio.Verificacao;
-import dao.DaoMestre;
-import dao.EmpresaDao;
 import dao.FuncionarioDao;
 import dao.UsuarioDao;
 import javax.swing.JOptionPane;
-import model.Empresa;
 import model.Funcionario;
 import model.Usuario;
 

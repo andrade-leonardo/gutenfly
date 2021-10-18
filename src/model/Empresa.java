@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.io.Serializable;
@@ -32,7 +27,7 @@ public class Empresa implements Serializable {
     @Column(name = "cnpj", length = 18, nullable = false)
     private String cnpj;
     
-    @Column(name = "telefone", length = 15, nullable = false)
+    @Column(name = "telefone", length = 30, nullable = false)
     private String telefone;
     
     @Column(name = "email", length = 45, nullable = false)

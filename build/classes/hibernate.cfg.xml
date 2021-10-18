@@ -23,5 +23,9 @@
     <mapping class="model.Item"/>
     <mapping class="model.Viagem"/>
     <mapping class="model.Aeroporto"/>
+    <mapping class="model.DestinoVoo"/>
+    <mapping class="model.OrigemVoo"/>
+    <mapping class="model.ViagemFuncionario"/>
+    <mapping class="model.ViagemCliente"/>
   </session-factory>
 </hibernate-configuration>

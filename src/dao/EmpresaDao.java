@@ -7,6 +7,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import model.Empresa;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 public class EmpresaDao extends DaoMestre {
 
@@ -25,6 +27,26 @@ public class EmpresaDao extends DaoMestre {
         try {
             transaction = sessao.beginTransaction();
             lista = sessao.createQuery("from em ORDER BY id").list();
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            sessao.close();
+        }
+        return lista;
+    }
+
+    public static List<Empresa> pegarEmpresasPequisadas(String cnpj, String nome) {
+        List<Empresa> lista = null;
+        Session sessao = factory.openSession();
+        try {
+            transaction = sessao.beginTransaction();
+            lista = sessao.createCriteria(Empresa.class)
+                    .add(Restrictions.like("cnpj", cnpj + "%"))
+                    .add(Restrictions.like("nome", nome + "%"))
+                    .addOrder(Order.asc("id")).list();
+
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -56,22 +78,14 @@ public class EmpresaDao extends DaoMestre {
         Session sessao = factory.openSession();
         try {
             transaction = sessao.beginTransaction();
-            Empresa antigaEmpresa = (Empresa) sessao.load(Empresa.class, id);
-            for (int i = 0; i < 10; i++) {
-                if (novaEmpresa.getNome() != null) {
-                    antigaEmpresa.setNome(novaEmpresa.getNome());
-                }
-                if (novaEmpresa.getCnpj() != null) {
-                    antigaEmpresa.setCnpj(novaEmpresa.getCnpj());
-                }
-                if (novaEmpresa.getTelefone() != null) {
-                    antigaEmpresa.setTelefone(novaEmpresa.getTelefone());
-                }
-                if (novaEmpresa.getEmail() != null) {
-                    antigaEmpresa.setEmail(novaEmpresa.getEmail());
-                }
-                sessao.update(antigaEmpresa);
-            }
+            Empresa antigaEmpresa = (Empresa) sessao.get(Empresa.class, id);
+            
+            antigaEmpresa.setNome(novaEmpresa.getNome());
+            antigaEmpresa.setCnpj(novaEmpresa.getCnpj());
+            antigaEmpresa.setTelefone(novaEmpresa.getTelefone());
+            antigaEmpresa.setEmail(novaEmpresa.getEmail());
+            sessao.update(antigaEmpresa);
+
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -96,47 +110,21 @@ public class EmpresaDao extends DaoMestre {
         dadosTabela = new Object[pegarTodasEmpresas().size()][6];
 
         int lin = 0;
-        
-        System.out.println(cnpj);
-           System.out.println(nome);
 
         try {
-            for (Empresa e : pegarTodasEmpresas()) {
-                if (!cnpj.equals("") && !nome.equals("")) {
-                    if (cnpj.equals(e.getCnpj().substring(0, cnpj.length()))
-                            && nome.equals(e.getNome().substring(0, nome.length()))) {
-                        dadosTabela[lin][0] = e.getId();
-                        dadosTabela[lin][1] = e.getCnpj();
-                        dadosTabela[lin][2] = e.getEmail();
-                        dadosTabela[lin][3] = e.getNome();
-                        dadosTabela[lin][4] = e.getTelefone();
+            if (!cnpj.equals("") || !nome.equals("")) {
+                dadosTabela = new Object[pegarEmpresasPequisadas(cnpj, nome).size()][6];
+                for (Empresa e : pegarEmpresasPequisadas(cnpj, nome)) {
+                    dadosTabela[lin][0] = e.getId();
+                    dadosTabela[lin][1] = e.getCnpj();
+                    dadosTabela[lin][2] = e.getEmail();
+                    dadosTabela[lin][3] = e.getNome();
+                    dadosTabela[lin][4] = e.getTelefone();
 
-                        lin++;
-                    }
-
-                } else if (!cnpj.equals("")) {
-                    if (cnpj.equals(e.getCnpj().substring(0, cnpj.length()))) {
-                        dadosTabela[lin][0] = e.getId();
-                        dadosTabela[lin][1] = e.getCnpj();
-                        dadosTabela[lin][2] = e.getEmail();
-                        dadosTabela[lin][3] = e.getNome();
-                        dadosTabela[lin][4] = e.getTelefone();
-
-                        lin++;
-                    }
-
-                } else if (!nome.equals("")) {
-                    if (nome.equals(e.getNome().substring(0, nome.length()))) {
-                        dadosTabela[lin][0] = e.getId();
-                        dadosTabela[lin][1] = e.getCnpj();
-                        dadosTabela[lin][2] = e.getEmail();
-                        dadosTabela[lin][3] = e.getNome();
-                        dadosTabela[lin][4] = e.getTelefone();
-
-                        lin++;
-                    }
-
-                } else {
+                    lin++;
+                }
+            } else {
+                for (Empresa e : pegarTodasEmpresas()) {
                     dadosTabela[lin][0] = e.getId();
                     dadosTabela[lin][1] = e.getCnpj();
                     dadosTabela[lin][2] = e.getEmail();

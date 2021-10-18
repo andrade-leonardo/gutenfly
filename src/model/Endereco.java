@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.io.Serializable;
@@ -35,7 +30,7 @@ public class Endereco implements Serializable {
     @Column(name = "numero", length = 20, nullable = false)
     private String numero;
     
-    @Column(name = "cep", length = 9, nullable = false)
+    @Column(name = "cep", length = 50, nullable = false)
     private String cep;
     
     @ManyToOne

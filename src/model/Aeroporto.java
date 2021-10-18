@@ -6,12 +6,14 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -42,6 +44,9 @@ public class Aeroporto implements Serializable {
 
     @Column(name = "situacao", nullable = false)
     private Boolean situacao;
+    
+    @OneToMany(mappedBy = "aeroporto")
+    List<DestinoVoo> destinoVoo;
 
     @OneToOne
     @JoinColumn(name = "endereco_id")

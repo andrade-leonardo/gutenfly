@@ -1,20 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.io.Serializable;
-import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 
@@ -23,13 +14,19 @@ import javax.persistence.Table;
 
 public class ViagemFuncionario implements Serializable {
     
-    @ManyToMany
+    @EmbeddedId
+    ViagemFuncionarioChave id;
+    
+    @ManyToOne
+    @MapsId("viagemId")
+    @JoinColumn(name = "viagem_id")
+    private Viagem viagem;
+    
+    @ManyToOne
+    @MapsId("funcionarioId")
     @JoinColumn(name = "funcionario_id")
     private Funcionario funcionario;
     
-    @ManyToMany
-    @JoinColumn(name = "viagem_id")
-    private Viagem viagem;
 
     public ViagemFuncionario() {
     }
@@ -48,6 +45,14 @@ public class ViagemFuncionario implements Serializable {
 
     public void setViagem(Viagem viagem) {
         this.viagem = viagem;
+    }
+
+    public ViagemFuncionarioChave getId() {
+        return id;
+    }
+
+    public void setId(ViagemFuncionarioChave id) {
+        this.id = id;
     }
 }
     

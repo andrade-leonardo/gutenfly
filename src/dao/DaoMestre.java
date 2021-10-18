@@ -5,6 +5,7 @@
  */
 package dao;
 
+import javax.persistence.Entity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -45,7 +46,7 @@ public class DaoMestre {
         }
         return feedBack;
     }
-
+    
     public static boolean delete(Object o) {
         boolean feedBack = false;
         Session session = factory.openSession();
