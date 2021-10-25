@@ -557,7 +557,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                     .addComponent(tfdIdCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdIdEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         jLabel8.getAccessibleContext().setAccessibleDescription("");
@@ -799,7 +799,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             jtfCep.setText("Digite o cep do cliente");
             tfdId.setText("");
 
-            ClienteDao.popularTabela(tblCliente, "", "", "");
+            ClienteDao.popularTabela(tblCliente, nomePesquisa.getText(), cepPesquisa.getText(), "");
 
         } catch (Exception e) {
             System.out.println(e);

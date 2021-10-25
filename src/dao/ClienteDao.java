@@ -87,7 +87,7 @@ public class ClienteDao extends DaoMestre {
         return retorno;
     }
     
-    public static void popularTabela(JTable tabela, String nome, String estado, String status) {
+    public static void popularTabela(JTable tabela, String nome, String cep, String status) {
 
         Object[][] dadosTabela = null;
 
@@ -100,12 +100,12 @@ public class ClienteDao extends DaoMestre {
         cabecalho[5] = "Estado";
         cabecalho[6] = "Status";
 
-        dadosTabela = new Object[pegarTodosClientes(nome, estado, status).size()][7];
+        dadosTabela = new Object[pegarTodosClientes(nome, cep, status).size()][7];
 
         int lin = 0;
 
         try {
-            for (Cliente c : pegarTodosClientes(nome, estado, status)) {
+            for (Cliente c : pegarTodosClientes(nome, cep, status)) {
                 dadosTabela[lin][0] = c.getId();
                 dadosTabela[lin][1] = c.getNome();
                 dadosTabela[lin][2] = c.getUsuario().getEmail();

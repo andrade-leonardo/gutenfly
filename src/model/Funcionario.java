@@ -8,33 +8,38 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity(name = "func")
 @Table(name = "funcionario")
 
-public class Funcionario  implements Serializable{
-    
+public class Funcionario implements Serializable {
+
     @Id
     @SequenceGenerator(name = "FUNCIONARIO_SEQ", sequenceName = "seq_funcionario", allocationSize = 1, initialValue = 1)
     @GeneratedValue(generator = "FUNCIONARIO_SEQ", strategy = GenerationType.IDENTITY)
-    
+
     @Column(name = "id", nullable = false)
     private Integer id;
-    
+
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
-    
+
     @Column(name = "cpf", length = 14, nullable = false)
     private String cpf;
-    
+
     @Column(name = "cargo", length = 40, nullable = false)
     private String cargo;
-    
+
     @Column(name = "telefone", length = 15, nullable = false)
     private String telefone;
-    
+
+    @OneToOne
+    @JoinColumn(name = "endereco_id")
+    private Endereco endereco;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
@@ -88,5 +93,13 @@ public class Funcionario  implements Serializable{
 
     public void setCargo(String cargo) {
         this.cargo = cargo;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }

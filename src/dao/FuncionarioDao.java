@@ -2,8 +2,13 @@ package dao;
 
 import static dao.DaoMestre.factory;
 import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import model.Funcionario;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 public class FuncionarioDao extends DaoMestre {
 
@@ -15,13 +20,23 @@ public class FuncionarioDao extends DaoMestre {
         }
         return funcionarioDao;
     }
-
-    public static List<Funcionario> pegarTodosFuncionarios() {
+    
+     public static List<Funcionario> pegarTodosFuncionarios(String nome, String cep, String status) {
         List<Funcionario> lista = null;
         Session sessao = factory.openSession();
         try {
             transaction = sessao.beginTransaction();
-            lista = sessao.createQuery("from func ORDER BY id").list();
+            if (!nome.equals("") || !cep.equals("") || !status.equals("")) {
+                lista = sessao.createCriteria(Funcionario.class)
+                        .createAlias("usuario", "u")
+                        .createAlias("endereco", "e")
+                        .add(Restrictions.like("nome", nome + "%"))
+                        .add(Restrictions.eq("u.status", ("Ativo".equals(status))))
+                        .add(Restrictions.like("e.cep", "%"+ cep + "%"))
+                        .addOrder(Order.asc("id")).list();
+            } else {
+                lista = sessao.createQuery("from func ORDER BY id").list();
+            }
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -58,6 +73,8 @@ public class FuncionarioDao extends DaoMestre {
             antigoFunc.setCpf(novoFunc.getCpf());
             antigoFunc.setCargo(novoFunc.getCargo());
             antigoFunc.setTelefone(novoFunc.getTelefone());
+            antigoFunc.setEndereco(novoFunc.getEndereco());
+            antigoFunc.setUsuario(novoFunc.getUsuario());
             sessao.update(antigoFunc);
 
             transaction.commit();
@@ -68,5 +85,87 @@ public class FuncionarioDao extends DaoMestre {
             sessao.close();
         }
         return retorno;
+    }
+    
+     public static void popularTabela(JTable tabela, String nome, String cep, String status) {
+
+        Object[][] dadosTabela = null;
+
+        Object[] cabecalho = new Object[8];
+        cabecalho[0] = "Código";
+        cabecalho[1] = "Nome";
+        cabecalho[2] = "Cargo";
+        cabecalho[3] = "E-mail";
+        cabecalho[4] = "Telefone";
+        cabecalho[5] = "Cidade";
+        cabecalho[6] = "Estado";
+        cabecalho[7] = "Status";
+
+        dadosTabela = new Object[pegarTodosFuncionarios(nome, cep, status).size()][8];
+
+        int lin = 0;
+
+        try {
+            for (Funcionario f : pegarTodosFuncionarios(nome, cep, status)) {
+                dadosTabela[lin][0] = f.getId();
+                dadosTabela[lin][1] = f.getNome();
+                dadosTabela[lin][2] = f.getCargo();
+                dadosTabela[lin][3] = f.getUsuario().getEmail();
+                dadosTabela[lin][4] = f.getTelefone();
+                dadosTabela[lin][5] = f.getEndereco().getCidade().getNome();
+                dadosTabela[lin][6] = f.getEndereco().getCidade().getEstado().getNome();
+                dadosTabela[lin][7] = f.getUsuario().getStatus() == true ? "Ativo" : "Inativo";
+
+                lin++;
+            }
+        } catch (Exception e) {
+            System.out.println("problemas para popular tabela...");
+            System.out.println(e);
+        }
+
+        tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
+
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
+            public Class getColumnClass(int column) {
+                return Object.class;
+            }
+        }
+        );
+
+        tabela.setSelectionMode(0);
+
+        TableColumn column = null;
+        for (int i = 0; i < tabela.getColumnCount(); i++) {
+            column = tabela.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0:
+                    column.setPreferredWidth(5);
+                    break;
+                case 1:
+                    column.setPreferredWidth(80);
+                    break;
+                case 2:
+                    column.setPreferredWidth(20);
+                    break;
+                case 3:
+                    column.setPreferredWidth(80);
+                    break;
+                case 4:
+                    column.setPreferredWidth(30);
+                    break;
+                case 5:
+                    column.setPreferredWidth(40);
+                    break;
+                case 6:
+                    column.setPreferredWidth(30);
+                    break;
+                case 7:
+                    column.setPreferredWidth(20);
+                    break;
+            }
+        }
     }
 }
