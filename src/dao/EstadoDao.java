@@ -2,11 +2,13 @@ package dao;
 
 import static dao.DaoMestre.factory;
 import java.util.List;
+import javax.swing.JComboBox;
 import model.Estado;
 import org.hibernate.Session;
 
+
 public class EstadoDao extends DaoMestre {
-    
+
     public static EstadoDao estadoDao = null;
 
     public static EstadoDao getInstance() {
@@ -16,13 +18,15 @@ public class EstadoDao extends DaoMestre {
         return estadoDao;
     }
 
-
-    public List<Estado> pegarTodosEstados() {
+    public List<Estado> pegarTodosEstados(JComboBox jcbEstado) {
         List<Estado> lista = null;
         Session sessao = factory.openSession();
         try {
             transaction = sessao.beginTransaction();
             lista = sessao.createQuery("from est ORDER BY id").list();
+            for (Estado estados : lista) {
+                jcbEstado.addItem(estados.getNome());
+            }
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -47,30 +51,5 @@ public class EstadoDao extends DaoMestre {
             sessao.close();
         }
         return est;
-    }
-
-    public static boolean atualizarEstado(Estado novoEstado, int id) {
-        boolean retorno = false;
-        Session sessao = factory.openSession();
-        try {
-            transaction = sessao.beginTransaction();
-            Estado antigoEstado = (Estado) sessao.load(Estado.class, id);
-            for (int i = 0; i < 10; i++) {
-                if (novoEstado.getNome() != null) {
-                    antigoEstado.setNome(novoEstado.getNome());
-                }
-                if (novoEstado.getUf() != null) {
-                    antigoEstado.setUf(novoEstado.getUf());
-                }
-                sessao.update(antigoEstado);
-            }
-            transaction.commit();
-        } catch (Exception e) {
-            transaction.rollback();
-            e.printStackTrace();
-        } finally {
-            sessao.close();
-        }
-        return retorno;
     }
 }

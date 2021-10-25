@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
-import javax.persistence.Entity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -29,7 +23,7 @@ public class DaoMestre {
         return daoMaster;
     }
 
-    public static boolean insert(Object o) {
+    public static boolean inserir(Object o) {
         boolean feedBack = false;
         Session session = factory.openSession();
         try {
@@ -47,7 +41,7 @@ public class DaoMestre {
         return feedBack;
     }
     
-    public static boolean delete(Object o) {
+    public static boolean deletar(Object o) {
         boolean feedBack = false;
         Session session = factory.openSession();
         try {

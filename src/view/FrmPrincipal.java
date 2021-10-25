@@ -45,6 +45,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gutenfly");
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 255));
 
@@ -281,27 +282,31 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnViagensActionPerformed
 
     private void btnAeroportosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAeroportosActionPerformed
-
+        IfrAeroporto frameAeroporto = new IfrAeroporto();
+        jDesktopPane1.add(frameAeroporto);
+        frameAeroporto.setVisible(true);
     }//GEN-LAST:event_btnAeroportosActionPerformed
 
     private void btnAvioesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvioesActionPerformed
-        IfrCadastroAviao frameAviao = new IfrCadastroAviao();
+        IfrAviao frameAviao = new IfrAviao();
         jDesktopPane1.add(frameAviao);
         frameAviao.setVisible(true);
     }//GEN-LAST:event_btnAvioesActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        // TODO add your handling code here:
+        IfrCliente frameCliente = new IfrCliente();
+        jDesktopPane1.add(frameCliente);
+        frameCliente.setVisible(true);
     }//GEN-LAST:event_btnClientesActionPerformed
 
     private void btnFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuncionariosActionPerformed
-        IfrCadastroFunc frameFuncionario = new IfrCadastroFunc();
+        IfrFuncionario frameFuncionario = new IfrFuncionario();
         jDesktopPane1.add(frameFuncionario);
         frameFuncionario.setVisible(true);
     }//GEN-LAST:event_btnFuncionariosActionPerformed
 
     private void btnEmpresasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpresasActionPerformed
-        IfrCadastroEmpresa frameEmpresa = new IfrCadastroEmpresa();
+        IfrEmpresa frameEmpresa = new IfrEmpresa();
         jDesktopPane1.add(frameEmpresa);
         frameEmpresa.setVisible(true);
     }//GEN-LAST:event_btnEmpresasActionPerformed

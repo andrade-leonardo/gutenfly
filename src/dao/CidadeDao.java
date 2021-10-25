@@ -2,17 +2,51 @@ package dao;
 
 import static dao.DaoMestre.factory;
 import java.util.List;
+import javax.swing.JComboBox;
 import model.Cidade;
 import org.hibernate.Session;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Order;
 
 public class CidadeDao extends DaoMestre {
 
-    public List<Cidade> pegarTodosCidades() {
+    public static CidadeDao cidadeDao = null;
+
+    public static CidadeDao getInstance() {
+        if (cidadeDao == null) {
+            cidadeDao = new CidadeDao();
+        }
+        return cidadeDao;
+    }
+    
+   public static List<Cidade> pegarTodasCidades() {
         List<Cidade> lista = null;
         Session sessao = factory.openSession();
         try {
             transaction = sessao.beginTransaction();
             lista = sessao.createQuery("from cid ORDER BY id").list();
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            sessao.close();
+        }
+        return lista;
+    }
+      
+
+    public List<Cidade> popularCidades(JComboBox jcbCidade, int estadoId) {
+        List<Cidade> lista = null;
+        Session sessao = factory.openSession();
+        try {
+            transaction = sessao.beginTransaction();
+            lista = sessao.createCriteria(Cidade.class)
+                        .add(Expression.eq("estado.id", estadoId))
+                        .addOrder(Order.asc("id")).list();
+            for (Cidade cidade : lista) {
+                jcbCidade.addItem(cidade.getNome());
+            }
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -29,6 +63,7 @@ public class CidadeDao extends DaoMestre {
         try {
             transaction = sessao.beginTransaction();
             cid = (Cidade) sessao.get(Cidade.class, id);
+            System.out.println(cid.getId());
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -37,30 +72,5 @@ public class CidadeDao extends DaoMestre {
             sessao.close();
         }
         return cid;
-    }
-
-    public static boolean atualizarCidade(Cidade novaCidade, int id) {
-        boolean retorno = false;
-        Session sessao = factory.openSession();
-        try {
-            transaction = sessao.beginTransaction();
-            Cidade antigaCidade = (Cidade) sessao.load(Cidade.class, id);
-            for (int i = 0; i < 10; i++) {
-                if (novaCidade.getNome() != null) {
-                    antigaCidade.setNome(novaCidade.getNome());
-                }
-                if (novaCidade.getEstado() != null) {
-                    antigaCidade.setEstado(novaCidade.getEstado());
-                }
-                sessao.update(antigaCidade);
-            }
-            transaction.commit();
-        } catch (Exception e) {
-            transaction.rollback();
-            e.printStackTrace();
-        } finally {
-            sessao.close();
-        }
-        return retorno;
     }
 }

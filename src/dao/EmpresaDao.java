@@ -2,10 +2,13 @@ package dao;
 
 import static dao.DaoMestre.factory;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import model.Empresa;
+import model.Estado;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -21,12 +24,21 @@ public class EmpresaDao extends DaoMestre {
         return empresaDao;
     }
 
-    public static List<Empresa> pegarTodasEmpresas() {
+    public static List<Empresa> pegarTodasEmpresas(String cnpj, String nome) {
         List<Empresa> lista = null;
         Session sessao = factory.openSession();
         try {
             transaction = sessao.beginTransaction();
-            lista = sessao.createQuery("from em ORDER BY id").list();
+            if (!cnpj.equals("") || !nome.equals("")) {
+                lista = sessao.createCriteria(Empresa.class)
+                        .add(Restrictions.like("cnpj", cnpj + "%"))
+                        .add(Restrictions.like("nome", nome + "%"))
+                        .addOrder(Order.asc("id")).list();
+
+            } else {
+                lista = sessao.createQuery("from em ORDER BY id").list();
+            }
+
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -36,17 +48,16 @@ public class EmpresaDao extends DaoMestre {
         }
         return lista;
     }
-
-    public static List<Empresa> pegarEmpresasPequisadas(String cnpj, String nome) {
+    
+    public List<Empresa> popularEmpresas(JComboBox jcbEmpresa) {
         List<Empresa> lista = null;
         Session sessao = factory.openSession();
         try {
             transaction = sessao.beginTransaction();
-            lista = sessao.createCriteria(Empresa.class)
-                    .add(Restrictions.like("cnpj", cnpj + "%"))
-                    .add(Restrictions.like("nome", nome + "%"))
-                    .addOrder(Order.asc("id")).list();
-
+            lista = sessao.createQuery("from em ORDER BY id").list();
+            for (Empresa empresas : lista) {
+                jcbEmpresa.addItem(empresas.getNome());
+            }
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -55,6 +66,14 @@ public class EmpresaDao extends DaoMestre {
             sessao.close();
         }
         return lista;
+    }
+    
+    public static void validaBuscaEmpresa(JComboBox empresaPesquisa, JTextField idEmpresa) {
+        for (Empresa empresa : EmpresaDao.getInstance().pegarTodasEmpresas("", "")) {
+            if (empresaPesquisa.getSelectedItem().equals(empresa.getNome())) {
+                idEmpresa.setText(String.valueOf(empresa.getId()));
+            }
+        }
     }
 
     public static Empresa pegarEmpresaPeloId(int id) {
@@ -79,7 +98,6 @@ public class EmpresaDao extends DaoMestre {
         try {
             transaction = sessao.beginTransaction();
             Empresa antigaEmpresa = (Empresa) sessao.get(Empresa.class, id);
-            
             antigaEmpresa.setNome(novaEmpresa.getNome());
             antigaEmpresa.setCnpj(novaEmpresa.getCnpj());
             antigaEmpresa.setTelefone(novaEmpresa.getTelefone());
@@ -107,32 +125,19 @@ public class EmpresaDao extends DaoMestre {
         cabecalho[3] = "Nome";
         cabecalho[4] = "Telefone";
 
-        dadosTabela = new Object[pegarTodasEmpresas().size()][6];
+        dadosTabela = new Object[pegarTodasEmpresas(cnpj, nome).size()][6];
 
         int lin = 0;
 
         try {
-            if (!cnpj.equals("") || !nome.equals("")) {
-                dadosTabela = new Object[pegarEmpresasPequisadas(cnpj, nome).size()][6];
-                for (Empresa e : pegarEmpresasPequisadas(cnpj, nome)) {
-                    dadosTabela[lin][0] = e.getId();
-                    dadosTabela[lin][1] = e.getCnpj();
-                    dadosTabela[lin][2] = e.getEmail();
-                    dadosTabela[lin][3] = e.getNome();
-                    dadosTabela[lin][4] = e.getTelefone();
+            for (Empresa e : pegarTodasEmpresas(cnpj, nome)) {
+                dadosTabela[lin][0] = e.getId();
+                dadosTabela[lin][1] = e.getCnpj();
+                dadosTabela[lin][2] = e.getEmail();
+                dadosTabela[lin][3] = e.getNome();
+                dadosTabela[lin][4] = e.getTelefone();
 
-                    lin++;
-                }
-            } else {
-                for (Empresa e : pegarTodasEmpresas()) {
-                    dadosTabela[lin][0] = e.getId();
-                    dadosTabela[lin][1] = e.getCnpj();
-                    dadosTabela[lin][2] = e.getEmail();
-                    dadosTabela[lin][3] = e.getNome();
-                    dadosTabela[lin][4] = e.getTelefone();
-
-                    lin++;
-                }
+                lin++;
             }
         } catch (Exception e) {
             System.out.println("problemas para popular tabela...");
@@ -140,6 +145,7 @@ public class EmpresaDao extends DaoMestre {
         }
 
         tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
+
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
@@ -147,7 +153,8 @@ public class EmpresaDao extends DaoMestre {
             public Class getColumnClass(int column) {
                 return Object.class;
             }
-        });
+        }
+        );
 
         tabela.setSelectionMode(0);
 
