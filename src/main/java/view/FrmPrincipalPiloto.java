@@ -184,19 +184,19 @@ public class FrmPrincipalPiloto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnViagensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViagensActionPerformed
-        IfrViagens frameViagens = new IfrViagens();
+        IfrViagensConsulta frameViagens = new IfrViagensConsulta();
         jDesktopPane1.add(frameViagens);
         frameViagens.setVisible(true);
     }//GEN-LAST:event_btnViagensActionPerformed
 
     private void btnAeroportosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAeroportosActionPerformed
-        IfrAeroporto frameAeroporto = new IfrAeroporto();
+        IfrAeroportoConsulta frameAeroporto = new IfrAeroportoConsulta();
         jDesktopPane1.add(frameAeroporto);
         frameAeroporto.setVisible(true);
     }//GEN-LAST:event_btnAeroportosActionPerformed
 
     private void btnAvioesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvioesActionPerformed
-        IfrAviao frameAviao = new IfrAviao();
+        IfrAviaoConsulta frameAviao = new IfrAviaoConsulta();
         jDesktopPane1.add(frameAviao);
         frameAviao.setVisible(true);
     }//GEN-LAST:event_btnAvioesActionPerformed

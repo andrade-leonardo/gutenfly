@@ -198,13 +198,13 @@ public class FrmPrincipalComissario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnViagensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViagensActionPerformed
-        IfrViagens frameViagens = new IfrViagens();
+        IfrViagensConsulta frameViagens = new IfrViagensConsulta();
         jDesktopPane1.add(frameViagens);
         frameViagens.setVisible(true);
     }//GEN-LAST:event_btnViagensActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        IfrCliente frameCliente = new IfrCliente();
+        IfrClienteConsulta frameCliente = new IfrClienteConsulta();
         jDesktopPane1.add(frameCliente);
         frameCliente.setVisible(true);
     }//GEN-LAST:event_btnClientesActionPerformed
@@ -214,7 +214,7 @@ public class FrmPrincipalComissario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBagagensActionPerformed
 
     private void btnEmpresasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpresasActionPerformed
-        IfrEmpresa frameEmpresa = new IfrEmpresa();
+        IfrEmpresaConsulta frameEmpresa = new IfrEmpresaConsulta();
         jDesktopPane1.add(frameEmpresa);
         frameEmpresa.setVisible(true);
     }//GEN-LAST:event_btnEmpresasActionPerformed

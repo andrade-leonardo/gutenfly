@@ -198,13 +198,13 @@ public class FrmPrincipalCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnViagensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViagensActionPerformed
-        IfrViagens frameViagens = new IfrViagens();
+        IfrViagensConsulta frameViagens = new IfrViagensConsulta();
         jDesktopPane1.add(frameViagens);
         frameViagens.setVisible(true);
     }//GEN-LAST:event_btnViagensActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        IfrCliente frameCliente = new IfrCliente();
+        IfrClienteConsulta frameCliente = new IfrClienteConsulta();
         jDesktopPane1.add(frameCliente);
         frameCliente.setVisible(true);
     }//GEN-LAST:event_btnClientesActionPerformed

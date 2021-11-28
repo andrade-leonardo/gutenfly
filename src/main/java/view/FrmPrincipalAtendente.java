@@ -232,7 +232,7 @@ public class FrmPrincipalAtendente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnViagensActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        IfrCliente frameCliente = new IfrCliente();
+        IfrClienteConsulta frameCliente = new IfrClienteConsulta();
         jDesktopPane1.add(frameCliente);
         frameCliente.setVisible(true);
     }//GEN-LAST:event_btnClientesActionPerformed
@@ -242,19 +242,19 @@ public class FrmPrincipalAtendente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEmailsActionPerformed
 
     private void btnAeroportosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAeroportosActionPerformed
-        //IfrAeroportoListagem frameAeroporto = new IfrAeroportoListagem();
-        //jDesktopPane1.add(frameAeroporto);
-       // frameAeroporto.setVisible(true);
+        IfrAeroportoConsulta frameAeroporto = new IfrAeroportoConsulta();
+        jDesktopPane1.add(frameAeroporto);
+        frameAeroporto.setVisible(true);
     }//GEN-LAST:event_btnAeroportosActionPerformed
 
     private void btnFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuncionariosActionPerformed
-        IfrFuncionario frameFuncionario = new IfrFuncionario();
+        IfrFuncionarioConsulta frameFuncionario = new IfrFuncionarioConsulta();
         jDesktopPane1.add(frameFuncionario);
         frameFuncionario.setVisible(true);
     }//GEN-LAST:event_btnFuncionariosActionPerformed
 
     private void btnEmpresasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpresasActionPerformed
-        IfrEmpresa frameEmpresa = new IfrEmpresa();
+        IfrEmpresaConsulta frameEmpresa = new IfrEmpresaConsulta();
         jDesktopPane1.add(frameEmpresa);
         frameEmpresa.setVisible(true);
     }//GEN-LAST:event_btnEmpresasActionPerformed
