@@ -44,13 +44,16 @@ public class Aeroporto implements Serializable {
 
     @Column(name = "situacao", nullable = false)
     private Boolean situacao;
-    
-    @OneToMany(mappedBy = "aeroporto")
-    List<DestinoVoo> destinoVoo;
 
     @OneToOne
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
+    
+    @OneToMany(mappedBy = "aeroporto")
+    List<OrigemVoo> origemVoo;
+    
+    @OneToMany(mappedBy = "aeroporto")
+    List<DestinoVoo> destinoVoo;
 
     public Aeroporto() {
     }
@@ -109,5 +112,21 @@ public class Aeroporto implements Serializable {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public List<OrigemVoo> getOrigemVoo() {
+        return origemVoo;
+    }
+
+    public void setOrigemVoo(List<OrigemVoo> origemVoo) {
+        this.origemVoo = origemVoo;
+    }
+
+    public List<DestinoVoo> getDestinoVoo() {
+        return destinoVoo;
+    }
+
+    public void setDestinoVoo(List<DestinoVoo> destinoVoo) {
+        this.destinoVoo = destinoVoo;
     }
 }

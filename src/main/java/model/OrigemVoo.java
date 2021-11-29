@@ -3,29 +3,32 @@ package model;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 
 @Entity(name = "origvo")
 @Table(name = "origemvoo")
 
 public class OrigemVoo implements Serializable {
     
-    @EmbeddedId
-    OrigemVooChave id;
+    @Id
+    @SequenceGenerator(name = "ORIGEMVOO_SEQ", sequenceName = "seq_origem", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(generator = "ORIGEMVOO_SEQ", strategy = GenerationType.IDENTITY)
+    
+    @Column(name = "id", nullable = false)
+    private Integer id;
     
     @ManyToOne
-    @MapsId("aeroportoId")
     @JoinColumn(name = "aeroporto_id")
     private Aeroporto aeroporto;
     
     @ManyToOne
-    @MapsId("viagemId")
     @JoinColumn(name = "viagem_id")
     private Viagem viagem;
     
@@ -82,11 +85,11 @@ public class OrigemVoo implements Serializable {
         this.viagem = viagem;
     }
 
-    public OrigemVooChave getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(OrigemVooChave id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }

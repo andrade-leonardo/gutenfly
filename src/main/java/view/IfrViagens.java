@@ -3,7 +3,9 @@ package view;
 import dao.AeroportoDao;
 import dao.AviaoDao;
 import dao.DaoMestre;
+import dao.DestinoVooDao;
 import dao.FuncionarioDao;
+import dao.OrigemVooDao;
 import dao.ViagemDao;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -12,7 +14,6 @@ import model.OrigemVoo;
 import model.Viagem;
 import model.ViagemFuncionario;
 import java.text.SimpleDateFormat;  
-import model.OrigemVooChave;
 
 public class IfrViagens extends javax.swing.JInternalFrame {
     
@@ -22,13 +23,13 @@ public class IfrViagens extends javax.swing.JInternalFrame {
         initComponents();
 
         AviaoDao.getInstance().pegarTodosAvioes("", 0, jcbAviao);
-        AeroportoDao.getInstance().pegarTodosAeroportos("", "", "", jcbAeroportoOrigem1);
-        AeroportoDao.getInstance().pegarTodosAeroportos("", "", "", jcbAeroportoDestino);
-        FuncionarioDao.getInstance().pegarTodosFuncionarios("", "", "", "Piloto", jcbPiloto);
-        FuncionarioDao.getInstance().pegarTodosFuncionarios("", "", "", "Copiloto", jcbCopiloto);
-        FuncionarioDao.getInstance().pegarTodosFuncionarios("", "", "", "Comissário(a)", jcbComissario1);
-        FuncionarioDao.getInstance().pegarTodosFuncionarios("", "", "", "Comissário(a)", jcbComissario2);
-        FuncionarioDao.getInstance().pegarTodosFuncionarios("", "", "", "Comissário(a)", jcbComissario3);
+        AeroportoDao.pegarTodosAeroportos("", "", "", jcbAeroportoOrigem1);
+        AeroportoDao.pegarTodosAeroportos("", "", "", jcbAeroportoDestino);
+        FuncionarioDao.pegarTodosFuncionarios("", "", "", "Piloto", jcbPiloto);
+        FuncionarioDao.pegarTodosFuncionarios("", "", "", "Copiloto", jcbCopiloto);
+        FuncionarioDao.pegarTodosFuncionarios("", "", "", "Comissário(a)", jcbComissario1);
+        FuncionarioDao.pegarTodosFuncionarios("", "", "", "Comissário(a)", jcbComissario2);
+        FuncionarioDao.pegarTodosFuncionarios("", "", "", "Comissário(a)", jcbComissario3);
         
         tfdId.setVisible(false); 
         tfidAviao.setVisible(false); 
@@ -96,13 +97,17 @@ public class IfrViagens extends javax.swing.JInternalFrame {
         tfdIdComissario3 = new javax.swing.JTextField();
         tfdIdDestinoVoo = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblViagem = new javax.swing.JTable();
+        nomePesquisa = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        cepPesquisa = new javax.swing.JTextField();
         jcbStatus = new javax.swing.JComboBox();
         jLabel16 = new javax.swing.JLabel();
 
@@ -402,7 +407,7 @@ public class IfrViagens extends javax.swing.JInternalFrame {
                                         .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGap(55, 55, 55))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -415,31 +420,29 @@ public class IfrViagens extends javax.swing.JInternalFrame {
                                     .addComponent(jcbPiloto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jcbCopiloto, 0, 206, Short.MAX_VALUE)
                                     .addComponent(tfdIdComissario3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
                                         .addComponent(tfdIdComissario2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(26, 26, 26)
-                                        .addComponent(tfdIdDestinoVoo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(32, 32, 32)
-                                        .addComponent(tfdIdOrigemVoo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel19)
+                                                .addComponent(tfdIdDestinoVoo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(32, 32, 32)
+                                                .addComponent(tfdIdOrigemVoo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel22)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jcbComissario1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jLabel21)
-                                                    .addComponent(jLabel22))
+                                                .addComponent(jcbComissario2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel21)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jcbComissario2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jcbComissario3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(47, 47, 47)))))))
+                                                .addComponent(jcbComissario3, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addGap(104, 104, 104)
+                                        .addComponent(jLabel19)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jcbComissario1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(bntCancelarAeroporto, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -502,21 +505,19 @@ public class IfrViagens extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel15)
-                        .addComponent(jcbAviao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel19)
-                        .addComponent(jcbComissario1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(jcbAviao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19)
+                    .addComponent(jcbComissario1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel17)
-                        .addComponent(jcbPiloto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jcbComissario2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel22)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel17)
+                            .addComponent(jcbPiloto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel22))
+                    .addComponent(jcbComissario2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
@@ -531,19 +532,23 @@ public class IfrViagens extends javax.swing.JInternalFrame {
                     .addComponent(tfdIdDestinoVoo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bntCancelarAeroporto)
+                    .addComponent(btnSalvar)
                     .addComponent(tfidAviao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdIdPiloto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdIdComissario, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfdIdCopiloto, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bntCancelarAeroporto)
-                    .addComponent(btnSalvar))
-                .addGap(5, 5, 5))
+                    .addComponent(tfdIdCopiloto, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jtbAeroporto.addTab("Cadastro", jPanel1);
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 255));
+
+        jLabel7.setFont(new java.awt.Font("Segoe Print", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Nome");
 
         tblViagem.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
         tblViagem.setModel(new javax.swing.table.DefaultTableModel(
@@ -558,6 +563,11 @@ public class IfrViagens extends javax.swing.JInternalFrame {
             }
         ));
         jScrollPane2.setViewportView(tblViagem);
+
+        nomePesquisa.setBackground(new java.awt.Color(0, 102, 255));
+        nomePesquisa.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
+        nomePesquisa.setForeground(new java.awt.Color(255, 255, 255));
+        nomePesquisa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagem/trash.png"))); // NOI18N
@@ -591,6 +601,15 @@ public class IfrViagens extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("Segoe Print", 0, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("CEP");
+
+        cepPesquisa.setBackground(new java.awt.Color(0, 102, 255));
+        cepPesquisa.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
+        cepPesquisa.setForeground(new java.awt.Color(255, 255, 255));
+        cepPesquisa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         jcbStatus.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
         jcbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ativo", "Inativo" }));
         jcbStatus.setBorder(null);
@@ -613,11 +632,18 @@ public class IfrViagens extends javax.swing.JInternalFrame {
                         .addGap(24, 24, 24)
                         .addComponent(jButton2))
                     .addComponent(jSeparator2)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel16)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(nomePesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cepPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                         .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -629,11 +655,15 @@ public class IfrViagens extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(nomePesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cepPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jcbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel16))
+                        .addComponent(jLabel16)
+                        .addComponent(jLabel10))
                     .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -662,19 +692,18 @@ public class IfrViagens extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String id = String.valueOf(tblViagem.getValueAt(tblViagem.getSelectedRow(), 0));
-        ViagemDao.deletar(ViagemDao.getInstance().pegarViagemPeloId(Integer.parseInt(id)));
-        ViagemDao.popularTabela(tblViagem);
+        ViagemDao.getInstance().deletar(ViagemDao.getInstance().pegarViagemPeloId(Integer.parseInt(id)));
+        ViagemDao.getInstance().popularTabela(tblViagem);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        ViagemDao.popularTabela(tblViagem);
+        ViagemDao.getInstance().popularTabela(tblViagem);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String id = String.valueOf(tblViagem.getValueAt(tblViagem.getSelectedRow(), 0));
 
-        Viagem viagem = ViagemDao.getInstance().pegarViagemPeloId(Integer.parseInt(id));
-        // DestinoVoo destno = DestinoDao.getInstance().pegarViagemDestinoPeloId(Integer.parseInt(id));
+        Viagem viagem = ViagemDao.pegarViagemPeloId(Integer.parseInt(id));
 
         if (viagem != null) {
             
@@ -699,35 +728,35 @@ public class IfrViagens extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jPanel1FocusGained
 
     private void jPanel1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseMoved
-        AviaoDao.getInstance().validaBuscaAviao(jcbAviao, tfidAviao);
+        AviaoDao.validaBuscaAviao(jcbAviao, tfidAviao);
         if (!jcbAviao.getSelectedItem().equals("Selecione o Avião")) {
             jcbAviao.removeItem("Selecione o Avião");
         }
-        FuncionarioDao.getInstance().validaBuscaFuncionario(jcbPiloto, tfdIdPiloto);
+        FuncionarioDao.validaBuscaFuncionario(jcbPiloto, tfdIdPiloto);
         if (!jcbPiloto.getSelectedItem().equals("Selecione o Piloto")) {
             jcbPiloto.removeItem("Selecione o Piloto");
         }
-        FuncionarioDao.getInstance().validaBuscaFuncionario(jcbCopiloto, tfdIdCopiloto);
+        FuncionarioDao.validaBuscaFuncionario(jcbCopiloto, tfdIdCopiloto);
         if (!jcbCopiloto.getSelectedItem().equals("Selecione o Copiloto")) {
             jcbCopiloto.removeItem("Selecione o Copiloto");
         }
-        FuncionarioDao.getInstance().validaBuscaFuncionario(jcbComissario1, tfdIdComissario);
+        FuncionarioDao.validaBuscaFuncionario(jcbComissario1, tfdIdComissario);
         if (!jcbComissario1.getSelectedItem().equals("Selecione o Comissário")) {
             jcbComissario1.removeItem("Selecione o Comissário");
         }
-        FuncionarioDao.getInstance().validaBuscaFuncionario(jcbComissario2, tfdIdComissario2);
+        FuncionarioDao.validaBuscaFuncionario(jcbComissario2, tfdIdComissario2);
         if (!jcbComissario2.getSelectedItem().equals("Selecione o Comissário")) {
             jcbComissario2.removeItem("Selecione o Comissário");
         }
-        FuncionarioDao.getInstance().validaBuscaFuncionario(jcbComissario3, tfdIdComissario3);
+        FuncionarioDao.validaBuscaFuncionario(jcbComissario3, tfdIdComissario3);
         if (!jcbComissario3.getSelectedItem().equals("Selecione o Comissário")) {
             jcbComissario3.removeItem("Selecione o Comissário");
         }
-        AeroportoDao.getInstance().validaBuscaAeroporto(jcbAeroportoDestino, tfdIdDestinoVoo);
+        AeroportoDao.validaBuscaAeroporto(jcbAeroportoDestino, tfdIdDestinoVoo);
         if (!jcbAeroportoDestino.getSelectedItem().equals("Selecione o Aeroporto")) {
             jcbAeroportoDestino.removeItem("Selecione o Aeroporto");
         }
-        AeroportoDao.getInstance().validaBuscaAeroporto(jcbAeroportoOrigem1, tfdIdOrigemVoo);
+        AeroportoDao.validaBuscaAeroporto(jcbAeroportoOrigem1, tfdIdOrigemVoo);
         if (!jcbAeroportoOrigem1.getSelectedItem().equals("Selecione o Aeroporto")) {
             jcbAeroportoOrigem1.removeItem("Selecione o Aeroporto");
         }
@@ -740,60 +769,62 @@ public class IfrViagens extends javax.swing.JInternalFrame {
             ViagemFuncionario comissario1 = new ViagemFuncionario();
             ViagemFuncionario comissario2 = new ViagemFuncionario();
             ViagemFuncionario comissario3 = new ViagemFuncionario();
-            OrigemVooChave chave = new OrigemVooChave();
             ViagemFuncionario piloto = new ViagemFuncionario();
             ViagemFuncionario copiloto = new ViagemFuncionario();
             Viagem v = new Viagem();
            
 
             v.setId(null);
-            v.setAviao(AviaoDao.getInstance().pegarAviaoPeloId(Integer.parseInt(tfidAviao.getText())));
+            v.setAviao(AviaoDao.pegarAviaoPeloId(Integer.parseInt(tfidAviao.getText())));
             v.setPreco(12.0); //Double.valueOf(tfdPassagem.getText())
             v.setSituacao((jcbSituacao.getSelectedItem() == "Ativo"));
 
-            if (DaoMestre.getInstance().inserir(v)) {
-               // chave.setAeroportoId(PROPERTIES);
-               //chave.setViagemId(v);
+            if (DaoMestre.inserir(v)) {
                 origemVoo.setId(null);
-                origemVoo.setAeroporto(AeroportoDao.getInstance().pegarAeroportoPeloId(Integer.parseInt(tfdIdOrigemVoo.getText())));
+                origemVoo.setAeroporto(AeroportoDao.pegarAeroportoPeloId(Integer.parseInt(tfdIdOrigemVoo.getText())));
                 origemVoo.setPortaoEmbarque(String.valueOf(jcbPortaoEmbarque1.getSelectedItem()));
                 origemVoo.setData(format.parse(tfdDataChegada.getText()));
                 origemVoo.setHorario(tfdHorarioChegada.getText());
                 origemVoo.setViagem(v);
-                DaoMestre.getInstance().inserir(origemVoo);
-            } /*else if (DaoMestre.getInstance().inserir(origemVoo)) {
+            }
+            if (DaoMestre.inserir(origemVoo)) {
                 destinoVoo.setId(null);
-                destinoVoo.setAeroporto(AeroportoDao.getInstance().pegarAeroportoPeloId(Integer.parseInt(tfdIdDestinoVoo.getText())));
+                destinoVoo.setAeroporto(AeroportoDao.pegarAeroportoPeloId(Integer.parseInt(tfdIdDestinoVoo.getText())));
                 destinoVoo.setPortaoDesembarque(String.valueOf(jcbPortaoDesembarque.getSelectedItem()));
                 destinoVoo.setData(format.parse(tfdDataSaida.getText()));
                 destinoVoo.setHorario(tfdHorarioSaida.getText());
                 destinoVoo.setViagem(v);
-            } else if (DaoMestre.getInstance().inserir(destinoVoo)) {
+            }
+            if (DaoMestre.inserir(destinoVoo)) {
                 piloto.setId(null);
-                piloto.setFuncionario(FuncionarioDao.getInstance().pegarFuncionarioPeloId(Integer.parseInt(tfdIdPiloto.getText())));
+                piloto.setFuncionario(FuncionarioDao.pegarFuncionarioPeloId(Integer.parseInt(tfdIdPiloto.getText())));
                 piloto.setViagem(v);
-            } else if (DaoMestre.getInstance().inserir(piloto)) {
+            } 
+            if (DaoMestre.inserir(piloto)) {
                 copiloto.setId(null);
-                copiloto.setFuncionario(FuncionarioDao.getInstance().pegarFuncionarioPeloId(Integer.parseInt(tfdIdCopiloto.getText())));
+                copiloto.setFuncionario(FuncionarioDao.pegarFuncionarioPeloId(Integer.parseInt(tfdIdCopiloto.getText())));
                 copiloto.setViagem(v);
-            } else if (DaoMestre.getInstance().inserir(copiloto)) {
+            } 
+            if (DaoMestre.inserir(copiloto)) {
                 comissario1.setId(null);
-                comissario1.setFuncionario(FuncionarioDao.getInstance().pegarFuncionarioPeloId(Integer.parseInt(tfdIdComissario.getText())));
+                comissario1.setFuncionario(FuncionarioDao.pegarFuncionarioPeloId(Integer.parseInt(tfdIdComissario.getText())));
                 comissario1.setViagem(v);
-            } else if (DaoMestre.getInstance().inserir(comissario1)) {
+            } 
+            if (DaoMestre.inserir(comissario1)) {
                 comissario2.setId(null);
-                comissario2.setFuncionario(FuncionarioDao.getInstance().pegarFuncionarioPeloId(Integer.parseInt(tfdIdComissario2.getText())));
+                comissario2.setFuncionario(FuncionarioDao.pegarFuncionarioPeloId(Integer.parseInt(tfdIdComissario2.getText())));
                 comissario2.setViagem(v);
-            } else if (DaoMestre.getInstance().inserir(comissario2)) {
+            } 
+            if (DaoMestre.inserir(comissario2)) {
                 comissario3.setId(null);
-                comissario3.setFuncionario(FuncionarioDao.getInstance().pegarFuncionarioPeloId(Integer.parseInt(tfdIdComissario3.getText())));
+                comissario3.setFuncionario(FuncionarioDao.pegarFuncionarioPeloId(Integer.parseInt(tfdIdComissario3.getText())));
                 comissario3.setViagem(v);
             }
 
-            if (tfdId.getText().equals("") && DaoMestre.getInstance().inserir(comissario3)) {
+            if (tfdId.getText().equals("") && DaoMestre.inserir(comissario3)) {
                 JOptionPane.showMessageDialog(null, "Registro salvo com sucesso!");
             }
-*/
+            
             jcbPiloto.addItem("Selecione o Piloto");
             jcbPiloto.setSelectedItem("Selecione o Piloto");
             jcbCopiloto.addItem("Selecione o Copiloto");
@@ -861,10 +892,12 @@ public class IfrViagens extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntCancelarAeroporto;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JTextField cepPesquisa;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -880,6 +913,7 @@ public class IfrViagens extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -902,6 +936,7 @@ public class IfrViagens extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jcbSituacao;
     private javax.swing.JComboBox jcbStatus;
     private javax.swing.JTabbedPane jtbAeroporto;
+    private javax.swing.JTextField nomePesquisa;
     private javax.swing.JTable tblViagem;
     private javax.swing.JFormattedTextField tfdDataChegada;
     private javax.swing.JFormattedTextField tfdDataSaida;

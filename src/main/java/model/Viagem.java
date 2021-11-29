@@ -2,8 +2,10 @@ package model;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,8 +38,17 @@ public class Viagem implements Serializable {
     @JoinColumn(name = "aviao_id")
     private Aviao aviao;
     
-    @OneToMany(mappedBy = "viagem")
+    @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
+    List<OrigemVoo> origemVoo;
+    
+    @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
     List<DestinoVoo> destinoVoo;
+    
+    @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
+    List<ViagemCliente> viagemCliente;
+    
+    @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
+    List<ViagemFuncionario> viagemFuncionario;
 
     public Viagem() {
     }
@@ -73,12 +84,36 @@ public class Viagem implements Serializable {
     public void setAviao(Aviao aviao) {
         this.aviao = aviao;
     }
-    
+
+    public List<OrigemVoo> getOrigemVoo() {
+        return origemVoo;
+    }
+
+    public void setOrigemVoo(List<OrigemVoo> origemVoo) {
+        this.origemVoo = origemVoo;
+    }
+
     public List<DestinoVoo> getDestinoVoo() {
         return destinoVoo;
     }
 
     public void setDestinoVoo(List<DestinoVoo> destinoVoo) {
         this.destinoVoo = destinoVoo;
+    }
+
+    public List<ViagemCliente> getViagemCliente() {
+        return viagemCliente;
+    }
+
+    public void setViagemCliente(List<ViagemCliente> viagemCliente) {
+        this.viagemCliente = viagemCliente;
+    }
+
+    public List<ViagemFuncionario> getViagemFuncionario() {
+        return viagemFuncionario;
+    }
+
+    public void setViagemFuncionario(List<ViagemFuncionario> viagemFuncionario) {
+        this.viagemFuncionario = viagemFuncionario;
     }
 }

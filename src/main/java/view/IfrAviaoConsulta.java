@@ -6,7 +6,11 @@
 package view;
 
 import dao.AviaoDao;
+import dao.DaoMestre;
 import dao.EmpresaDao;
+import javax.swing.JOptionPane;
+import model.Aviao;
+import model.Empresa;
 
 /**
  *
@@ -19,6 +23,9 @@ public class IfrAviaoConsulta extends javax.swing.JInternalFrame {
      */
     public IfrAviaoConsulta() {
         initComponents();
+        tfdIdEmpresaPesquisa.setVisible(false);
+        tfdIdEmpresaPesquisa.setText(String.valueOf(0));
+        EmpresaDao.getInstance().popularEmpresas(empresaPesquisa);
         AviaoDao.getInstance().popularTabela(tblAviao, "", 0);
     }
 

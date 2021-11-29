@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -40,6 +42,9 @@ public class Cliente implements Serializable {
     @OneToOne
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
+    
+    @OneToMany(mappedBy = "cliente")
+    List<ViagemCliente> viagemCliente;
 
     public Cliente() {
     }
@@ -90,5 +95,13 @@ public class Cliente implements Serializable {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public List<ViagemCliente> getViagemCliente() {
+        return viagemCliente;
+    }
+
+    public void setViagemCliente(List<ViagemCliente> viagemCliente) {
+        this.viagemCliente = viagemCliente;
     }
 }

@@ -8,6 +8,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import model.Aeroporto;
+import model.DestinoVoo;
+import model.OrigemVoo;
 import model.Viagem;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -28,12 +30,12 @@ public class ViagemDao extends DaoMestre {
         List<Viagem> lista = null;
         Session sessao = factory.openSession();
         try {
-              transaction = sessao.beginTransaction();
+            transaction = sessao.beginTransaction();
             //if (!nome.equals("") || !cep.equals("") || !situacao.equals("")) {
-                lista = sessao.createCriteria(Viagem.class)
-                        .addOrder(Order.asc("id")).list();
+            lista = sessao.createCriteria(Viagem.class)
+                    .addOrder(Order.asc("id")).list();
             //} else {
-               // lista = sessao.createQuery("from via ORDER BY id").list();
+            // lista = sessao.createQuery("from via ORDER BY id").list();
             //}
             transaction.commit();
         } catch (Exception e) {
@@ -81,7 +83,8 @@ public class ViagemDao extends DaoMestre {
         }
         return retorno;
     }
-     public static void popularTabela(JTable tabela) {
+
+    public static void popularTabela(JTable tabela) {
 
         Object[][] dadosTabela = null;
 
@@ -95,6 +98,7 @@ public class ViagemDao extends DaoMestre {
         cabecalho[6] = "Situação";
 
         dadosTabela = new Object[pegarTodasViagens().size()][7];
+       
 
         int lin = 0;
 
@@ -103,11 +107,11 @@ public class ViagemDao extends DaoMestre {
                 dadosTabela[lin][0] = v.getId();
                 dadosTabela[lin][1] = v.getAviao().getNome();
                 dadosTabela[lin][2] = v.getPreco();
-                dadosTabela[lin][3] = 123;
-                dadosTabela[lin][4] = 123;
-                dadosTabela[lin][5] = 123; // v.getDestinoVoo().get(lin).getAeroporto().getEndereco().getCidade();
+                dadosTabela[lin][3] = OrigemVooDao.getInstance().pegarOrigemId(v.getId()).getData();
+                dadosTabela[lin][4] = OrigemVooDao.getInstance().pegarOrigemId(v.getId()).getAeroporto().getEndereco().getCidade().getNome();
+                dadosTabela[lin][5] = DestinoVooDao.getInstance().pegarDestinoId(v.getId()).getAeroporto().getEndereco().getCidade().getNome();
                 dadosTabela[lin][6] = v.getSituacao() == true ? "Ativo" : "Inativo";
-
+                
                 lin++;
             }
         } catch (Exception e) {

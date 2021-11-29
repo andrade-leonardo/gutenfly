@@ -2,11 +2,13 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
@@ -15,16 +17,18 @@ import javax.persistence.Table;
 
 public class ViagemCliente implements Serializable {
     
-    @EmbeddedId
-    ViagemClienteChave id;
+    @Id
+    @SequenceGenerator(name = "VIAGEMCLIENTE_SEQ", sequenceName = "seq_viagemcliente", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(generator = "VIAGEMCLIENTE_SEQ", strategy = GenerationType.IDENTITY)
+    
+    @Column(name = "id", nullable = false)
+    private Integer id;
         
     @ManyToOne
-    @MapsId("viagemId")
     @JoinColumn(name = "viagem_id")
     private Viagem viagem;
     
     @ManyToOne
-    @MapsId("clienteId")
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
     
@@ -103,11 +107,11 @@ public class ViagemCliente implements Serializable {
         this.bagagem = bagagem;
     }   
 
-    public ViagemClienteChave getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(ViagemClienteChave id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }
