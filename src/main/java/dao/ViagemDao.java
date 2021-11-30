@@ -11,6 +11,7 @@ import model.Aeroporto;
 import model.DestinoVoo;
 import model.OrigemVoo;
 import model.Viagem;
+import model.ViagemFuncionario;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -63,15 +64,44 @@ public class ViagemDao extends DaoMestre {
         return avi;
     }
 
-    public static boolean atualizarViagem(Viagem novaViagem, int id) {
+    public static boolean atualizarViagem(Viagem novaViagem, ViagemFuncionario piloto, 
+            ViagemFuncionario copiloto, ViagemFuncionario comissario1, 
+            ViagemFuncionario comissario2, ViagemFuncionario comissario3, 
+            OrigemVoo origem, DestinoVoo destino, int id) {
         boolean retorno = false;
         Session sessao = factory.openSession();
         try {
             transaction = sessao.beginTransaction();
             Viagem antigaViagem = (Viagem) sessao.load(Viagem.class, id);
+            OrigemVoo antigaOrigem = (OrigemVoo) sessao.load(OrigemVoo.class, origem.getId());
+            DestinoVoo antigoDestino = (DestinoVoo) sessao.load(DestinoVoo.class, destino.getId());
+            ViagemFuncionario antigoPiloto = (ViagemFuncionario) sessao.load(ViagemFuncionario.class, piloto.getId());
+            ViagemFuncionario antigoCopiloto = (ViagemFuncionario) sessao.load(ViagemFuncionario.class, copiloto.getId());
+            ViagemFuncionario antigocomissario1 = (ViagemFuncionario) sessao.load(ViagemFuncionario.class, comissario1.getId());
+            ViagemFuncionario antigocomissario2 = (ViagemFuncionario) sessao.load(ViagemFuncionario.class, comissario2.getId());
+            ViagemFuncionario antigocomissario3 = (ViagemFuncionario) sessao.load(ViagemFuncionario.class, comissario3.getId());
+            
+            
+            //origem
+            antigaOrigem.setAeroporto(origem.getAeroporto());
+            antigaOrigem.setData(origem.getData());
+            antigaOrigem.setHorario(origem.getHorario());
+            antigaOrigem.setPortaoEmbarque(origem.getPortaoEmbarque());
+            antigaOrigem.setViagem(origem.getViagem());
+            
+            //destino
+            antigoDestino.setAeroporto(destino.getAeroporto());
+            antigoDestino.setData(destino.getData());
+            antigoDestino.setHorario(destino.getHorario());
+            antigoDestino.setPortaoDesembarque(destino.getPortaoDesembarque());
+            antigoDestino.setViagem(destino.getViagem());
+           
+           //viagem
             antigaViagem.setPreco(novaViagem.getPreco());
             antigaViagem.setSituacao(novaViagem.getSituacao());
             antigaViagem.setAviao(novaViagem.getAviao());
+            
+    
             sessao.update(antigaViagem);
 
             transaction.commit();
@@ -85,7 +115,7 @@ public class ViagemDao extends DaoMestre {
     }
 
     public static void popularTabela(JTable tabela) {
-
+//, int origemId, int destinoId, String status
         Object[][] dadosTabela = null;
 
         Object[] cabecalho = new Object[7];

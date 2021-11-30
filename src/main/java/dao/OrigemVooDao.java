@@ -2,14 +2,8 @@ package dao;
 
 import static dao.DaoMestre.factory;
 import static dao.DaoMestre.transaction;
-import java.util.List;
-import javax.swing.JComboBox;
-import model.Aeroporto;
-import model.DestinoVoo;
 import model.OrigemVoo;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
 public class OrigemVooDao extends DaoMestre {

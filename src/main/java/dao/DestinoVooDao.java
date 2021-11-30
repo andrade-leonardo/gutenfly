@@ -3,6 +3,7 @@ package dao;
 import static dao.DaoMestre.factory;
 import static dao.DaoMestre.transaction;
 import model.DestinoVoo;
+import model.Viagem;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -33,5 +34,21 @@ public class DestinoVooDao extends DaoMestre {
             sessao.close();
         }
         return destinoVoo;
+    }
+    
+      public static DestinoVoo pegarDestinoPelaViagemId(int viagemId) {
+        Session sessao = factory.openSession();
+        DestinoVoo destino = null;
+        try {
+            transaction = sessao.beginTransaction();
+            //destino = (Viagem) sessao.get(Viagem.class, id);
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            sessao.close();
+        }
+        return destino;
     }
 }
