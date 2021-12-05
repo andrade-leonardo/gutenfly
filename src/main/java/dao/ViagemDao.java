@@ -2,22 +2,22 @@ package dao;
 
 import static dao.DaoMestre.factory;
 import static dao.DaoMestre.transaction;
+import java.text.SimpleDateFormat;
 import java.util.List;
-import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import model.Aeroporto;
 import model.DestinoVoo;
 import model.OrigemVoo;
 import model.Viagem;
-import model.ViagemFuncionario;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 
 public class ViagemDao extends DaoMestre {
-
+    
+    private static final SimpleDateFormat padraoData = new SimpleDateFormat("dd/MM/yyyy");
     public static ViagemDao viagemDao = null;
 
     public static ViagemDao getInstance() {
@@ -32,12 +32,7 @@ public class ViagemDao extends DaoMestre {
         Session sessao = factory.openSession();
         try {
             transaction = sessao.beginTransaction();
-            //if (!nome.equals("") || !cep.equals("") || !situacao.equals("")) {
-            lista = sessao.createCriteria(Viagem.class)
-                    .addOrder(Order.asc("id")).list();
-            //} else {
-            // lista = sessao.createQuery("from via ORDER BY id").list();
-            //}
+            lista = sessao.createQuery("from via ORDER BY id").list();
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -64,58 +59,8 @@ public class ViagemDao extends DaoMestre {
         return avi;
     }
 
-    public static boolean atualizarViagem(Viagem novaViagem, ViagemFuncionario piloto, 
-            ViagemFuncionario copiloto, ViagemFuncionario comissario1, 
-            ViagemFuncionario comissario2, ViagemFuncionario comissario3, 
-            OrigemVoo origem, DestinoVoo destino, int id) {
-        boolean retorno = false;
-        Session sessao = factory.openSession();
-        try {
-            transaction = sessao.beginTransaction();
-            Viagem antigaViagem = (Viagem) sessao.load(Viagem.class, id);
-            OrigemVoo antigaOrigem = (OrigemVoo) sessao.load(OrigemVoo.class, origem.getId());
-            DestinoVoo antigoDestino = (DestinoVoo) sessao.load(DestinoVoo.class, destino.getId());
-            ViagemFuncionario antigoPiloto = (ViagemFuncionario) sessao.load(ViagemFuncionario.class, piloto.getId());
-            ViagemFuncionario antigoCopiloto = (ViagemFuncionario) sessao.load(ViagemFuncionario.class, copiloto.getId());
-            ViagemFuncionario antigocomissario1 = (ViagemFuncionario) sessao.load(ViagemFuncionario.class, comissario1.getId());
-            ViagemFuncionario antigocomissario2 = (ViagemFuncionario) sessao.load(ViagemFuncionario.class, comissario2.getId());
-            ViagemFuncionario antigocomissario3 = (ViagemFuncionario) sessao.load(ViagemFuncionario.class, comissario3.getId());
-            
-            
-            //origem
-            antigaOrigem.setAeroporto(origem.getAeroporto());
-            antigaOrigem.setData(origem.getData());
-            antigaOrigem.setHorario(origem.getHorario());
-            antigaOrigem.setPortaoEmbarque(origem.getPortaoEmbarque());
-            antigaOrigem.setViagem(origem.getViagem());
-            
-            //destino
-            antigoDestino.setAeroporto(destino.getAeroporto());
-            antigoDestino.setData(destino.getData());
-            antigoDestino.setHorario(destino.getHorario());
-            antigoDestino.setPortaoDesembarque(destino.getPortaoDesembarque());
-            antigoDestino.setViagem(destino.getViagem());
-           
-           //viagem
-            antigaViagem.setPreco(novaViagem.getPreco());
-            antigaViagem.setSituacao(novaViagem.getSituacao());
-            antigaViagem.setAviao(novaViagem.getAviao());
-            
-    
-            sessao.update(antigaViagem);
-
-            transaction.commit();
-        } catch (Exception e) {
-            transaction.rollback();
-            e.printStackTrace();
-        } finally {
-            sessao.close();
-        }
-        return retorno;
-    }
-
     public static void popularTabela(JTable tabela) {
-//, int origemId, int destinoId, String status
+
         Object[][] dadosTabela = null;
 
         Object[] cabecalho = new Object[7];
@@ -128,7 +73,6 @@ public class ViagemDao extends DaoMestre {
         cabecalho[6] = "Situação";
 
         dadosTabela = new Object[pegarTodasViagens().size()][7];
-       
 
         int lin = 0;
 
@@ -137,11 +81,11 @@ public class ViagemDao extends DaoMestre {
                 dadosTabela[lin][0] = v.getId();
                 dadosTabela[lin][1] = v.getAviao().getNome();
                 dadosTabela[lin][2] = v.getPreco();
-                dadosTabela[lin][3] = OrigemVooDao.getInstance().pegarOrigemId(v.getId()).getData();
-                dadosTabela[lin][4] = OrigemVooDao.getInstance().pegarOrigemId(v.getId()).getAeroporto().getEndereco().getCidade().getNome();
-                dadosTabela[lin][5] = DestinoVooDao.getInstance().pegarDestinoId(v.getId()).getAeroporto().getEndereco().getCidade().getNome();
+                dadosTabela[lin][3] = padraoData.format(OrigemVooDao.pegarOrigemId(v.getId()).getData());
+                dadosTabela[lin][4] = OrigemVooDao.pegarOrigemId(v.getId()).getAeroporto().getEndereco().getCidade().getNome();
+                dadosTabela[lin][5] = DestinoVooDao.pegarDestinoId(v.getId()).getAeroporto().getEndereco().getCidade().getNome();
                 dadosTabela[lin][6] = v.getSituacao() == true ? "Ativo" : "Inativo";
-                
+
                 lin++;
             }
         } catch (Exception e) {
@@ -174,10 +118,10 @@ public class ViagemDao extends DaoMestre {
                     column.setPreferredWidth(80);
                     break;
                 case 2:
-                    column.setPreferredWidth(80);
+                    column.setPreferredWidth(40);
                     break;
                 case 3:
-                    column.setPreferredWidth(30);
+                    column.setPreferredWidth(50);
                     break;
                 case 4:
                     column.setPreferredWidth(40);

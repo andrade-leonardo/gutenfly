@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity(name = "origvo")
 @Table(name = "origemvoo")
@@ -24,7 +28,7 @@ public class OrigemVoo implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
     
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "aeroporto_id")
     private Aeroporto aeroporto;
     
@@ -36,7 +40,9 @@ public class OrigemVoo implements Serializable {
     private String portaoEmbarque;
     
     @Column(name = "data", nullable = false)
-    private Date data;
+    @Basic
+    @Temporal(TemporalType.DATE)
+    private java.util.Date  data;
     
     @Column(name = "horario", length = 5, nullable = false)
     private String horario;
@@ -57,7 +63,7 @@ public class OrigemVoo implements Serializable {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(java.util.Date data) {
         this.data = data;
     }
 

@@ -6,11 +6,7 @@
 package view;
 
 import dao.AviaoDao;
-import dao.DaoMestre;
 import dao.EmpresaDao;
-import javax.swing.JOptionPane;
-import model.Aviao;
-import model.Empresa;
 
 /**
  *

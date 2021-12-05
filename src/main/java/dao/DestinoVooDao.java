@@ -3,7 +3,6 @@ package dao;
 import static dao.DaoMestre.factory;
 import static dao.DaoMestre.transaction;
 import model.DestinoVoo;
-import model.Viagem;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -35,13 +34,16 @@ public class DestinoVooDao extends DaoMestre {
         }
         return destinoVoo;
     }
-    
-      public static DestinoVoo pegarDestinoPelaViagemId(int viagemId) {
+    /*
+     public static List<DestinoVoo> pegarTodosDestinos(JComboBox jcbDestino int destinoId) {
+        List<DestinoVoo> lista = null;
         Session sessao = factory.openSession();
-        DestinoVoo destino = null;
         try {
             transaction = sessao.beginTransaction();
-            //destino = (Viagem) sessao.get(Viagem.class, id);
+            lista = sessao.createQuery("from destvoo ORDER BY id").list();
+            for (DestinoVoo destino : lista) {
+                jcbDestino.addItem(destino.getAeroporto().getEndereco().getCidade().getNome());
+            }
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -49,6 +51,7 @@ public class DestinoVooDao extends DaoMestre {
         } finally {
             sessao.close();
         }
-        return destino;
+        return lista;
     }
+*/
 }

@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
 
 
 @Entity(name = "viagemcli")
@@ -25,10 +27,11 @@ public class ViagemCliente implements Serializable {
     private Integer id;
         
     @ManyToOne
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "viagem_id")
     private Viagem viagem;
     
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
     
@@ -44,7 +47,7 @@ public class ViagemCliente implements Serializable {
     @Column(name = "checkin", nullable = false)
     private Boolean checkin;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "bagagem_id")
     private Bagagem bagagem;
 

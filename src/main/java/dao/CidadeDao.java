@@ -36,14 +36,19 @@ public class CidadeDao extends DaoMestre {
     }
       
 
-    public List<Cidade> popularCidades(JComboBox jcbCidade, int estadoId) {
+    public static List<Cidade> popularCidades(JComboBox jcbCidade, int estadoId) {
         List<Cidade> lista = null;
         Session sessao = factory.openSession();
         try {
             transaction = sessao.beginTransaction();
+            if(estadoId != 0) {
             lista = sessao.createCriteria(Cidade.class)
                         .add(Expression.eq("estado.id", estadoId))
                         .addOrder(Order.asc("id")).list();
+            } else {
+                lista = sessao.createCriteria(Cidade.class)
+                        .addOrder(Order.asc("id")).list();
+            }
             for (Cidade cidade : lista) {
                 jcbCidade.addItem(cidade.getNome());
             }

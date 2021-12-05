@@ -38,16 +38,16 @@ public class Viagem implements Serializable {
     @JoinColumn(name = "aviao_id")
     private Aviao aviao;
     
-    @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "viagem", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     List<OrigemVoo> origemVoo;
     
-    @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "viagem", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     List<DestinoVoo> destinoVoo;
     
-    @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "viagem", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     List<ViagemCliente> viagemCliente;
     
-    @OneToMany(mappedBy = "viagem", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "viagem", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     List<ViagemFuncionario> viagemFuncionario;
 
     public Viagem() {
