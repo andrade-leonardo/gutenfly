@@ -198,7 +198,7 @@ public class FrmPrincipalCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnViagensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViagensActionPerformed
-        IfrViagensConsulta frameViagens = new IfrViagensConsulta();
+        IfrComprarPassagens frameViagens = new IfrComprarPassagens();
         jDesktopPane1.add(frameViagens);
         frameViagens.setVisible(true);
     }//GEN-LAST:event_btnViagensActionPerformed
