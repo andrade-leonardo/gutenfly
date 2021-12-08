@@ -6,8 +6,12 @@
 package view;
 
 import apoio.Verificacao;
+import dao.ClienteDao;
 import dao.UsuarioDao;
 import javax.swing.JOptionPane;
+import model.Cliente;
+import model.Sessao;
+import model.Usuario;
 
 /**
  *
@@ -213,12 +217,21 @@ public class FrmLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLoginActionPerformed
-        int tipoUsuario = UsuarioDao.getInstance().autenticar(tfdEmail.getText(), new Verificacao().criptografaSenha(tfdSenha.getText()));
+        int tipoUsuario = UsuarioDao.getInstance().autenticar(tfdEmail.getText(), 
+                new Verificacao().criptografaSenha(tfdSenha.getText()));
         switch (tipoUsuario) {
             case 1:
                 new FrmPrincipal().setVisible(true);
                 break;
             case 2:
+                Cliente cli = new Cliente();
+                Sessao sessao = Sessao.getInstance();
+                
+                cli = ClienteDao.getInstance().pegarClienteLogado(tfdEmail.getText(), 
+                new Verificacao().criptografaSenha(tfdSenha.getText())).get(0);
+                
+                sessao.setCliente(cli);
+                
                 new FrmPrincipalCliente().setVisible(true);
                 break;
             case 3:

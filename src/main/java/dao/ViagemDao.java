@@ -135,4 +135,95 @@ public class ViagemDao extends DaoMestre {
             }
         }
     }
+    public static void popularTabelaPassagens(JTable tabela) {
+
+        Object[][] dadosTabela = null;
+
+        Object[] cabecalho = new Object[10];
+        cabecalho[0] = "Código";
+        cabecalho[1] = "Empresa";
+        cabecalho[2] = "Avião";
+        cabecalho[3] = "Horário Saída";
+        cabecalho[4] = "Portão Embarque";
+        cabecalho[5] = "Data chegada";
+        cabecalho[6] = "Portão Desembarque";
+        cabecalho[7] = "Horário Chegada";
+        cabecalho[8] = "Preço(R$)";
+        cabecalho[9] = "Situação";
+
+        dadosTabela = new Object[pegarTodasViagens().size()][10];
+
+        int lin = 0;
+
+        try {
+            for (Viagem v : pegarTodasViagens()) {
+                dadosTabela[lin][0] = v.getId();
+                dadosTabela[lin][1] = v.getAviao().getEmpresa().getNome();
+                dadosTabela[lin][2] = v.getAviao().getNome();
+                dadosTabela[lin][3] = OrigemVooDao.pegarOrigemId(v.getId()).getHorario();
+                dadosTabela[lin][4] = OrigemVooDao.pegarOrigemId(v.getId()).getPortaoEmbarque();
+                dadosTabela[lin][5] = padraoData.format(DestinoVooDao.pegarDestinoId(v.getId()).getData());
+                dadosTabela[lin][6] = DestinoVooDao.pegarDestinoId(v.getId()).getPortaoDesembarque();
+                dadosTabela[lin][7] = DestinoVooDao.pegarDestinoId(v.getId()).getHorario();
+                dadosTabela[lin][8] = v.getPreco();
+                dadosTabela[lin][9] = v.getSituacao() == true ? "Ativo" : "Inativo";
+
+                lin++;
+            }
+        } catch (Exception e) {
+            System.out.println("problemas para popular tabela...");
+            System.out.println(e);
+        }
+
+        tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
+
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
+            public Class getColumnClass(int column) {
+                return Object.class;
+            }
+        }
+        );
+
+        tabela.setSelectionMode(0);
+
+        TableColumn column = null;
+        for (int i = 0; i < tabela.getColumnCount(); i++) {
+            column = tabela.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0:
+                    column.setPreferredWidth(5);
+                    break;
+                case 1:
+                    column.setPreferredWidth(80);
+                    break;
+                case 2:
+                    column.setPreferredWidth(40);
+                    break;
+                case 3:
+                    column.setPreferredWidth(30);
+                    break;
+                case 4:
+                    column.setPreferredWidth(20);
+                    break;
+                case 5:
+                    column.setPreferredWidth(60);
+                    break;
+                case 6:
+                    column.setPreferredWidth(20);
+                    break;
+                case 7:
+                    column.setPreferredWidth(40);
+                    break;
+                case 8:
+                    column.setPreferredWidth(30);
+                    break;
+                case 9:
+                    column.setPreferredWidth(20);
+                    break;
+            }
+        }
+    }
 }

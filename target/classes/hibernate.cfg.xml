@@ -27,5 +27,6 @@
     <mapping class="model.OrigemVoo"/>
     <mapping class="model.ViagemFuncionario"/>
     <mapping class="model.ViagemCliente"/>
+    <mapping class="model.MetodoPagamento"/>
   </session-factory>
 </hibernate-configuration>

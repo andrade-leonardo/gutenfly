@@ -62,6 +62,26 @@ public class ClienteDao extends DaoMestre {
         }
         return cli;
     }
+    
+      public static List<Cliente> pegarClienteLogado(String email, String senha) {
+        List<Cliente> lista = null;
+        Session sessao = factory.openSession();
+        try {
+            transaction = sessao.beginTransaction();
+             lista = sessao.createCriteria(Cliente.class)
+                        .createAlias("usuario", "u")
+                        .add(Restrictions.eq("u.email", email))
+                        .add(Restrictions.eq("u.senha", senha)).list();
+  
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            sessao.close();
+        }
+        return lista;
+    }
 
     public static boolean atualizarCliente(Cliente novoCliente, int id) {
         boolean retorno = false;

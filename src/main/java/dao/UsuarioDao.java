@@ -3,6 +3,7 @@ package dao;
 import static dao.DaoMestre.factory;
 import static dao.DaoMestre.transaction;
 import java.util.List;
+import model.Cliente;
 import model.Usuario;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;

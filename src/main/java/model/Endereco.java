@@ -24,13 +24,13 @@ public class Endereco implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
     
-    @Column(name = "rua", length = 45, nullable = false)
+    @Column(name = "rua", length = 45, nullable = true)
     private String rua;
     
-    @Column(name = "numero", length = 20, nullable = false)
+    @Column(name = "numero", length = 20, nullable = true)
     private String numero;
     
-    @Column(name = "cep", length = 50, nullable = false)
+    @Column(name = "cep", length = 50, nullable = true)
     private String cep;
     
     @ManyToOne

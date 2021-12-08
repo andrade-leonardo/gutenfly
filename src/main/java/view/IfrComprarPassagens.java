@@ -5,17 +5,30 @@
  */
 package view;
 
+import dao.DaoMestre;
+import dao.DestinoVooDao;
+import dao.OrigemVooDao;
+import dao.ViagemDao;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import model.DestinoVoo;
+import model.MetodoPagamento;
+import model.OrigemVoo;
+import model.Sessao;
+import model.Viagem;
+import model.ViagemCliente;
+
 /**
  *
  * @author Rafinha
  */
 public class IfrComprarPassagens extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form IfrComprarPassagens
-     */
+    public static final SimpleDateFormat fomartarData = new SimpleDateFormat("dd/MM/yyyy");
+
     public IfrComprarPassagens() {
         initComponents();
+        ViagemDao.getInstance().popularTabelaPassagens(tblPassagens);
     }
 
     /**
@@ -33,8 +46,8 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
         jSeparator4 = new javax.swing.JSeparator();
         bntCancelar = new javax.swing.JButton();
         btnProximo = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblPassagem = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblPassagens = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -91,6 +104,11 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
         bntCancelar.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
         bntCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagem/cancelarColorido.png"))); // NOI18N
         bntCancelar.setText("Cancelar");
+        bntCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntCancelarActionPerformed(evt);
+            }
+        });
 
         btnProximo.setBackground(new java.awt.Color(255, 255, 255));
         btnProximo.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
@@ -102,45 +120,29 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
             }
         });
 
-        tblPassagem.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        tblPassagem.setModel(new javax.swing.table.DefaultTableModel(
+        tblPassagens.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
+        tblPassagens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "N° Voo", "Empresa", "Avião", "Horário Saída", "Portão Emb", "Data Chegada", "Portão Desemb.", "Horário Cheg.", "Preço (R$)", "Situação"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblPassagem.setGridColor(new java.awt.Color(0, 0, 0));
-        jScrollPane1.setViewportView(tblPassagem);
+        ));
+        jScrollPane2.setViewportView(tblPassagens);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator4)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(bntCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -151,11 +153,11 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bntCancelar)
                     .addComponent(btnProximo))
                 .addGap(19, 19, 19))
@@ -177,8 +179,10 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Destino do Voo:");
 
+        tfdOrigemVoo.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
         tfdOrigemVoo.setEnabled(false);
 
+        tfdDestinoVoo.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
         tfdDestinoVoo.setEnabled(false);
 
         jLabel7.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
@@ -189,6 +193,7 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Horário:");
 
+        tfdDataSaida.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
         tfdDataSaida.setEnabled(false);
         tfdDataSaida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -196,6 +201,7 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
             }
         });
 
+        tfdHorario.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
         tfdHorario.setEnabled(false);
 
         jLabel9.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
@@ -206,6 +212,7 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Valor (R$):");
 
+        tfdPortao.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
         tfdPortao.setEnabled(false);
         tfdPortao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,6 +220,7 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
             }
         });
 
+        tfdValor.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
         tfdValor.setEnabled(false);
         tfdValor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -229,13 +237,13 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
         jLabel13.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
         jLabel13.setText("Nome:");
 
-        tfdNomeCliente.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        tfdNomeCliente.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
         tfdNomeCliente.setEnabled(false);
 
         jLabel14.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
         jLabel14.setText("CPF:");
 
-        tfdCPF.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        tfdCPF.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
         tfdCPF.setEnabled(false);
         tfdCPF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,15 +254,20 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
         jLabel15.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
         jLabel15.setText("Telefone:");
 
-        tfdTelefone.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        tfdTelefone.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
         tfdTelefone.setEnabled(false);
+        tfdTelefone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfdTelefoneActionPerformed(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         jLabel17.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
         jLabel17.setText("Endereço:");
 
-        tfdEndereço.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        tfdEndereço.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
         tfdEndereço.setEnabled(false);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -271,29 +284,27 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(114, 114, 114)
                                 .addComponent(jLabel12)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 128, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                                .addComponent(tfdNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(35, 35, 35)
-                                        .addComponent(tfdCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(tfdTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(10, 10, 10)
-                                .addComponent(tfdEndereço)))))
+                                .addComponent(tfdEndereço))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(tfdTelefone))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(10, 10, 10)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tfdNomeCliente)
+                                    .addComponent(tfdCPF))))
+                        .addGap(78, 78, 78)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -341,8 +352,8 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
             }
         });
 
-        jcbParcelas.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
-        jcbParcelas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Número de Parcelas" }));
+        jcbParcelas.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
+        jcbParcelas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Número de Parcelas", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
 
         jLabel19.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
         jLabel19.setText("Número do Cartão:");
@@ -350,11 +361,14 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
         jLabel20.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
         jLabel20.setText("Nome no Cartão:");
 
+        tfdNomeCartao.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
+
         try {
             tfdNumeroCartao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-####-####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        tfdNumeroCartao.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
 
         jLabel21.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
         jLabel21.setText("Data de Validade:");
@@ -367,12 +381,14 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        tfdDataCartao.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
 
         try {
             tfdCodigoCartao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        tfdCodigoCartao.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -510,7 +526,7 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(bntRetorno, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 697, Short.MAX_VALUE)
                         .addComponent(btnFinalizar))
                     .addComponent(jSeparator5))
                 .addContainerGap())
@@ -548,7 +564,7 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bntRetorno)
                     .addComponent(btnFinalizar))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jtpPassagem.addTab("Pagamento", jPanel2);
@@ -561,7 +577,7 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jtpPassagem, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jtpPassagem)
         );
 
         pack();
@@ -588,17 +604,94 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tfdDataSaidaActionPerformed
 
     private void bntRetornoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntRetornoActionPerformed
-       
-        jtpPassagem.setSelectedIndex(1);
+        jrbCredito.setSelected(false);
+        jrbDebito.setSelected(false);
+        jcbParcelas.setSelectedIndex(0);
+        tfdNumeroCartao.setText("");
+        tfdNomeCartao.setText("");
+        tfdDataCartao.setText("");
+        tfdCodigoCartao.setText("");
+
+        tfdOrigemVoo.setText("");
+        tfdDestinoVoo.setText("");
+        tfdDataSaida.setText("");
+        tfdHorario.setText("");
+        tfdPortao.setText("");
+        tfdValor.setText("");
+        jtpPassagem.setSelectedIndex(0);
     }//GEN-LAST:event_bntRetornoActionPerformed
 
     private void btnProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximoActionPerformed
-        
+        String id = String.valueOf(tblPassagens.getValueAt(tblPassagens.getSelectedRow(), 0));
+
+        Viagem viagem = ViagemDao.pegarViagemPeloId(Integer.parseInt(id));
+        DestinoVoo destino = DestinoVooDao.pegarDestinoId(viagem.getId());
+        OrigemVoo origem = OrigemVooDao.pegarOrigemId(viagem.getId());
+
+        tfdNomeCliente.setText(Sessao.getInstance().getCliente().getNome());
+        tfdCPF.setText(Sessao.getInstance().getCliente().getCpf());
+        tfdTelefone.setText(Sessao.getInstance().getCliente().getTelefone());
+        tfdEndereço.setText(Sessao.getInstance().getCliente().getEndereco().getCidade().getEstado().getNome()
+                + " - " + Sessao.getInstance().getCliente().getEndereco().getCidade().getNome());
+
+        tfdOrigemVoo.setText(origem.getAeroporto().getEndereco().getCidade().getNome());
+        tfdDestinoVoo.setText(destino.getAeroporto().getEndereco().getCidade().getNome());
+        tfdDataSaida.setText(fomartarData.format(origem.getData()));
+        tfdHorario.setText(origem.getHorario());
+        tfdPortao.setText(origem.getPortaoEmbarque());
+        tfdValor.setText(String.valueOf(viagem.getPreco()));
+
+        jtpPassagem.setSelectedIndex(1);
     }//GEN-LAST:event_btnProximoActionPerformed
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        // TODO add your handling code here:
+        try {
+            String id = String.valueOf(tblPassagens.getValueAt(tblPassagens.getSelectedRow(), 0));
+
+            ViagemCliente viagemCliente = new ViagemCliente();
+            Viagem viagem = ViagemDao.pegarViagemPeloId(Integer.parseInt(id));
+            MetodoPagamento metodo = new MetodoPagamento();
+
+            viagemCliente.setId(null);
+            viagemCliente.setCliente(Sessao.getInstance().getCliente());
+            viagemCliente.setViagem(viagem);
+
+            if (DaoMestre.inserir(viagemCliente)) {
+                metodo.setCodigoSeguranca(tfdCodigoCartao.getText());
+                metodo.setDataValidade(fomartarData.parse(tfdDataCartao.getText()));
+                metodo.setId(null);
+                metodo.setNmeroParcelas(jcbParcelas.getSelectedItem().toString());
+                metodo.setNumeroCartao(tfdNumeroCartao.getText());
+                metodo.setNomeCartao(tfdNomeCartao.getText());
+                metodo.setViagemCliente(viagemCliente);
+                if (jrbCredito.isSelected()) {
+                    metodo.setTipoPagamento("Cartão de Crédito");
+                } else if (jrbDebito.isSelected()) {
+                    metodo.setTipoPagamento("Cartão de Débito");
+                }
+                if (DaoMestre.inserir(metodo)) {
+                    JOptionPane.showMessageDialog(null, "Registro salvo com sucesso!");
+                    jrbCredito.setSelected(false);
+                    jrbDebito.setSelected(false);
+                    jcbParcelas.setSelectedIndex(0);
+                    tfdNumeroCartao.setText("");
+                    tfdNomeCartao.setText("");
+                    tfdDataCartao.setText("");
+                    tfdCodigoCartao.setText("");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao comprar a passagem: " + e);
+        }
     }//GEN-LAST:event_btnFinalizarActionPerformed
+
+    private void bntCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_bntCancelarActionPerformed
+
+    private void tfdTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdTelefoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfdTelefoneActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -629,7 +722,7 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
@@ -637,7 +730,7 @@ public class IfrComprarPassagens extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton jrbCredito;
     private javax.swing.JRadioButton jrbDebito;
     private javax.swing.JTabbedPane jtpPassagem;
-    private javax.swing.JTable tblPassagem;
+    private javax.swing.JTable tblPassagens;
     private javax.swing.JTextField tfdCPF;
     private javax.swing.JFormattedTextField tfdCodigoCartao;
     private javax.swing.JFormattedTextField tfdDataCartao;

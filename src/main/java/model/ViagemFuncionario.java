@@ -26,7 +26,7 @@ public class ViagemFuncionario implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
          
-    @ManyToOne(/*cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}*/)
+    @ManyToOne()
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "viagem_id")
     private Viagem viagem;
